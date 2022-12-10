@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image.prod.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+    <title>Watercycle AR</title>
+</head>
+<body>
+    <script type="module" src="./main.js"></script>
+   <a-scene id="target" mindar-image="imageTargetSrc:./watercycle.mind" color-space="sRGB" renderer="colorManagement:true,physicallyCorrectLights" vr-mode-ui="enabled:false" device-orientation-permission-ui="enabled:false">
+        <a-assets>
+            <video id="video" src="./evaporation.mp4" autoplay="true" loop="true"></video>
+            <img id="evaporation" src="./dom evaporation.png" alt="evaporation">
+            <img id="condensation" src="./dom condensation.png" alt="evaporation">
+            <img id="percipitation" src="./dom percipitation.png" alt="evaporation">
+        </a-assets>
+        <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: ${customFields.libVersion}; objects: .clickable"></a-camera>
+
+        <a-entity mindar-image-target="targetIndex:0">
+            
+            <a-video src="#video" width="1" height="0.7069555" position="0 0 0"></a-video>
+            <a-plane id="evap" class="clickable" src="#evaporation" position="-0.25 -0.5 0" width="0.3" height="0.3" transparent="true"></a-plane>
+            <a-plane id="conden" class="clickable" src="#condensation" position="0 -0.5 0" width="0.3" height="0.3" transparent="true"></a-plane>
+            <a-plane id="perci" class="clickable" src="#percipitation" position="0.25 -0.5 0" width="0.3" height="0.3" transparent="true"></a-plane>
+
+        </a-entity>
+   </a-scene> 
+   <script>
+    const video = document.getElementById('video')
+    
+    const target = document.getElementById('target');
+    target.addEventListener('targetFound',event=>{
+        video.play();
+    })
+
+    target.addEventListener('targetLost',event=>{
+        video.pause();
+    })
+</script>
+</body>
+</html>
